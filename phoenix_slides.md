@@ -2,6 +2,23 @@
 
 ---
 
+# we will cover...
+
+- some context
+- what Phoenix is/what Elixir is
+- what we like about phoenix
+- what we don't like about phoenix
+
+---
+
+# not going to cover
+
+- OTP/Advanced Elixir
+- Performance
+- Package ecosystem
+- Observer/runtime debugging
+
+---
 
 # problem set
 
@@ -36,19 +53,6 @@ an elixir web framework
 
 ---
 
-<!--
-## what is phoenix - rails differences
-
-- phoenix is not your app
-- elixir is not ruby
-- explicitness over implicitness
-- emphasis on maintainability
-- failure is first class
-- strong concurrency primitives
-
----
-
--->
 
 # our phoenix apps
   
@@ -57,6 +61,10 @@ an elixir web framework
 | mario         | 85      | 5015  | summer->now  |
 | descriptions  | 84      | 9910  | summer->now  |
 | yambot        | so many | lots  | eternal      |
+
+---
+
+demo phoenix blog app and elixir
 
 ---
 
@@ -186,10 +194,6 @@ lib
 
 ```
 
-
----
-
-demo configs per env
 
 ---
 
@@ -364,40 +368,25 @@ Task.Supervisor.start_child(
 
 # channels
 
-demo
-
----
-# observer
-
-demo observer
-
----
-# latency/perf
-
-
-demo stable latencies
-
----
-# built-in redis (ets)
-
-
-demo how easy ets is to use for process-shared resources
+demo channels with mario app
 
 ---
 
 # what we don't like
 
-- error messages are occasionally cryptic
-- ecto feels immature at times
-- docs outside of core libraries can be a mixed bag
-- macros can be confusing
+- cryptic error messages
+- ecto immaturity
+- docs outside of core libraries
+- confusing macros
 - smaller ecosystem
 
 ---
 
 # takeaways
 
-insert takeaways here
+- we really like Phoenix
+- feels like Rails++
+- you don't have to be an Elixir expert
 
 ---
 
