@@ -20,6 +20,21 @@
 
 ---
 
+# what is phoenix
+
+an elixir web framework
+
+---
+
+# what is phoenix - context
+
+- "A productive web framework that does not compromise speed and maintainability."
+- broadly similar to rails
+- with some significant structural improvements
+
+
+---
+
 # problem set
 
 ---
@@ -37,19 +52,10 @@
 - over time
 ```
 
----
-
-# what is phoenix
-
-an elixir web framework
 
 ---
 
-# what is phoenix - context
-
-- "A productive web framework that does not compromise speed and maintainability."
-- broadly similar to rails
-- with some significant structural improvements
+demo phoenix blog app and elixir
 
 ---
 
@@ -64,9 +70,6 @@ an elixir web framework
 
 ---
 
-demo phoenix blog app and elixir
-
----
 
 # what we like
 
@@ -136,7 +139,6 @@ mix format                  # auto-format project code
 - phoenix is not your app
 - different configs per environment out of the box
 - doctests
-- ecto vs activerecord
 
 ---
 
@@ -220,9 +222,6 @@ end
 
 ---
 
-## ecto vs. activerecord
-
----
 
 # power
 
@@ -235,15 +234,7 @@ end
 - router pipelines
 - parallel tests
 - tasks
-
----
-
-# power
-
 - channels
-- observer
-- latency/perf
-- built-in redis (ets)
 
 ---
 
@@ -289,36 +280,39 @@ def index(conn, %{"title" => title} = params), do: ...
 # router pipelines
 
 ```elixir
-pipeline :browser do                               
-  plug :accepts, ["html"]                          
-  plug :fetch_session                              
-  plug :fetch_flash                                
-  plug :protect_from_forgery                       
-  plug :put_secure_browser_headers                 
-end                                                
-                                                   
-pipeline :authenticated do                         
-  plug BasicAuth, use_config: {:whereisemma, :auth}
-end                                                
-                                                   
-pipeline :api do                                   
-  plug :accepts, ["json"]                          
-end
-```
+defmodule ExampleAppWeb.Router do
+  use ExampleAppWeb, :router
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
 
-```elixir
-scope "/", WhereisemmaWeb do                           
-  pipe_through :browser # Use the default browser stack
-                                                       
-  get "/", PageController, :index                      
-end                                                    
-                                                       
-scope "/", WhereisemmaWeb do                           
-  pipe_through [:browser, :authenticated]              
-                                                       
-  get  "/update", PageController, :edit                
-  post "/update", PageController, :update              
-end          
+  pipeline :authenticated do
+    plug BasicAuth, use_config: {:example_app, :auth}
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
+  scope "/", ExampleAppWeb do
+    pipe_through [:browser, :authenticated]
+
+    resources "/posts", PostController, only: [:edit, :update, :create, :new, :delete] do
+      resources "/comments", CommentController, only: [:create]
+    end
+  end
+
+  scope "/", ExampleAppWeb do
+    pipe_through :browser
+
+    get "/", PostController, :index
+    resources "/posts", PostController, only: [:index, :show]
+  end
+end
 ```
 
 ---
